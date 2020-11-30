@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -60,7 +61,10 @@ public class FilterStrPathBeanDefinitionScanner extends ClassPathBeanDefinitionS
     private void processBeanDefinition(Set<BeanDefinitionHolder> beanDefinitionHolders) {
         for (BeanDefinitionHolder beanDefinitionHolder : beanDefinitionHolders) {
             GenericBeanDefinition beanDefinition = (GenericBeanDefinition) beanDefinitionHolder.getBeanDefinition();
-            beanDefinition.getConstructorArgumentValues().addGenericArgumentValue(beanDefinition.getBeanClassName());
+            String beanClassName = beanDefinition.getBeanClassName();
+            if (Objects.nonNull(beanClassName)) {
+                beanDefinition.getConstructorArgumentValues().addGenericArgumentValue(beanClassName);
+            }
             beanDefinition.setBeanClass(this.filterStrFactoryBean.getClass());
         }
     }

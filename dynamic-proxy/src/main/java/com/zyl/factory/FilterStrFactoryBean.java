@@ -3,7 +3,6 @@ package com.zyl.factory;
 import com.zyl.proxy.FilterProxy;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.InitializingBean;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -12,7 +11,7 @@ import java.lang.reflect.Proxy;
 /**
  * @author zhangyanlong
  */
-public class FilterStrFactoryBean<T> implements FactoryBean<T>, InitializingBean {
+public class FilterStrFactoryBean<T> implements FactoryBean<T> {
 
     private Class<T> clazz;
 
@@ -24,13 +23,9 @@ public class FilterStrFactoryBean<T> implements FactoryBean<T>, InitializingBean
         this.clazz = clazz;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public void afterPropertiesSet() throws Exception {
-
-    }
-
-    @Override
-    public T getObject() throws Exception {
+    public T getObject() {
         return (T) Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[]{clazz}, new FilterInvocationHandler());
     }
 
