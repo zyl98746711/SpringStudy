@@ -1,0 +1,10 @@
+server:
+  port: 8090
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: ZylLx930101
+    url: jdbc:mysql://localhost:3306/study?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    dbcp2:
+      validation-query: SELECT 1
