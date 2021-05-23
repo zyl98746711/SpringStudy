@@ -8,6 +8,7 @@
         <module>dynamic-proxy-test</module>
         <module>graceful-shutdown</module>
         <module>dynamic-table</module>
+        <module>delay</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
