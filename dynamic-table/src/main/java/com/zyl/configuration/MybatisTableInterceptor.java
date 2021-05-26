@@ -3,6 +3,7 @@ package com.zyl.configuration;
 
 import com.zyl.interfaces.DynamicTable;
 import com.zyl.interfaces.Dynamics;
+import org.apache.ibatis.executor.statement.RoutingStatementHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.*;
@@ -26,6 +27,9 @@ import java.util.Properties;
 public class MybatisTableInterceptor implements Interceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
+        if (invocation.getTarget() instanceof RoutingStatementHandler) {
+            return invocation.proceed();
+        }
         StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
         DefaultReflectorFactory defaultReflectorFactory = new DefaultReflectorFactory();
         MetaObject metaStatementHandler =
@@ -63,9 +67,7 @@ public class MybatisTableInterceptor implements Interceptor {
             for (DynamicTable value : values) {
                 sql = sql.replaceAll(value.tableName(), value.targetName());
             }
-
-            MetaObject msObject = MetaObject.forObject(statementHandler, SystemMetaObject.DEFAULT_OBJECT_FACTORY, SystemMetaObject.DEFAULT_OBJECT_WRAPPER_FACTORY, defaultReflectorFactory);
-            msObject.setValue("sqlSource.boundSql.sql", sql);
+            metaStatementHandler.setValue("delegate.boundSql.sql", sql);
         }
         return invocation.proceed();
     }

@@ -3,7 +3,7 @@ package com.zyl.controller;
 import com.zyl.domain.User;
 import com.zyl.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +21,7 @@ public class UserController {
     /**
      * 保存用户
      */
-    @PostMapping
+    @GetMapping
     public void saveUser() {
         User user = new User();
         user.setAge(11);
